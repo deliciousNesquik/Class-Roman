@@ -1,5 +1,7 @@
 package main.romancalc;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +15,7 @@ import java.util.Map;
 public class Roman {
     private int NUMBER = 0; /**Переменная для хранения римского числа в арабской форме исчисления*/
     private String SNUMBER = ""; /**Переменная для хранения римского числа в форме строки*/
-    
-    private static final Map<Character, Integer> map = new HashMap<>(); //хранение чисел (римские: обычные)
+    private final Map<Character, Integer> map = new HashMap<>(); //хранение чисел (римские: обычные)
     {
         map.put('I', 1);
         map.put('V', 5);
@@ -24,8 +25,6 @@ public class Roman {
         map.put('D', 500);
         map.put('M', 1000);
     }
-    
-
     
     /**
      *Метод Roman(String roman) предназначен для преобразования
@@ -45,14 +44,12 @@ public class Roman {
        
         for(int i = s.length() - 1, before = 0; i >= 0; i--){
             int current = map.get(s.charAt(i)); // текущеее число
-            
             if(current < before){
                 this.NUMBER -= current;
             }
             else{
                 this.NUMBER += current;
             }
-            
             before = current;
         }
         IntToRoman(this.NUMBER);
@@ -71,7 +68,6 @@ public class Roman {
         else if(roman == 0){
             roman = 1;
         }
-        
         this.NUMBER = roman;
         IntToRoman(this.NUMBER);
     }
@@ -80,20 +76,16 @@ public class Roman {
      *Метод RomanToInt преобразует римское число в арабское.
      */
     private void RomanToInt(String roman){
-        String s = roman;
         int number = 0; // хранение числа в конструкторе
         int before = 0; // предыдущее число
-        
-        for(int i = s.length() - 1; i >= 0; i--){
-            int current = map.get(s.charAt(i)); // текущеее число
-            
+        for(int i = roman.length() - 1; i >= 0; i--){
+            int current = map.get(roman.charAt(i)); // текущеее число
             if(current < before){
                 number -= current;
             }
             else{
                 number += current;
             }
-            
             before = current;
         }
         this.NUMBER = number;
@@ -104,7 +96,6 @@ public class Roman {
      */
     private void IntToRoman(int NUMBER){
         this.SNUMBER = "";
-        
         if(NUMBER >= 1 && NUMBER <= 10){
             switch(NUMBER){
                 case 1 -> this.SNUMBER += "I";
@@ -122,7 +113,6 @@ public class Roman {
         else if(NUMBER >= 11 && NUMBER <= 99){
             int unit = NUMBER % 10;
             int dozens = (NUMBER / 10) % 10;
-            
             switch(dozens){
                 case 1 -> this.SNUMBER += "X";
                 case 2 -> this.SNUMBER += "XX";
@@ -150,7 +140,6 @@ public class Roman {
             int unit = NUMBER % 10;
             int dozens = (NUMBER / 10) % 10;
             int hundreds = ((NUMBER / 10) / 10) % 10;
-            
             switch(hundreds){
                 case 1 -> this.SNUMBER += "C";
                 case 2 -> this.SNUMBER += "CC";
@@ -190,8 +179,6 @@ public class Roman {
             int dozens = (NUMBER / 10) % 10;
             int hundreds = ((NUMBER / 10) / 10) % 10;
             int thousands = (((NUMBER / 10) / 10) / 10) % 10;
-            
-            
             switch(thousands){
                 case 1 -> this.SNUMBER += "M";
                 case 2 -> this.SNUMBER += "MM";
@@ -269,45 +256,46 @@ public class Roman {
         IntToRoman(n);
         this.NUMBER = n;
     }
-    
+
     /**
-     *Метод add принимает два аргумента типа Roman
+     *Метод add принимает один аргумент типа Roman
      *и возвращает результат сложения двух римских цифр.
+     *И присваевает это значение первому обьекту класса Roman
      **/
-    public String add(Roman other){
-        
+    public String add(@NotNull Roman other){
         this.NUMBER = this.NUMBER + other.NUMBER;
         IntToRoman(this.NUMBER);
         return this.SNUMBER;
     }
 
     /**
-     *Метод sub принимает два аргумента типа Roman
+     *Метод sub принимает один аргумент типа Roman
      *и возвращает результат вычитания двух римских цифр.
+     *И присваевает это значение первому обьекту класса Roman
      **/
-    public String sub(Roman other){
-        
+    public String sub(@NotNull Roman other){
         this.NUMBER = this.NUMBER - other.NUMBER;
         IntToRoman(this.NUMBER);
         return this.SNUMBER;
     }
-    
+
     /**
-     *Метод mul принимает два аргумента типа Roman
+     *Метод mul принимает один аргумент типа Roman
      *и возвращает результат умножения двух римских цифр.
+     *И присваевает это значение первому обьекту класса Roman
      **/
-    public String mul(Roman other){
-        
+    public String mul(@NotNull Roman other){
         this.NUMBER = this.NUMBER * other.NUMBER;
         IntToRoman(this.NUMBER);
         return this.SNUMBER;
     }
 
     /**
-     *Метод div принимает два аргумента типа Roman
+     *Метод div принимает один аргумент типа Roman
      *и возвращает результат деления двух римских цифр.
+     *И присваевает это значение первому обьекту класса Roman
      **/
-    public String div(Roman other){
+    public String div(@NotNull Roman other){
         this.NUMBER = this.NUMBER / other.NUMBER;
         IntToRoman(this.NUMBER);
         return this.SNUMBER;
