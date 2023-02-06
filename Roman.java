@@ -1,7 +1,5 @@
 package main.romancalc;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,10 +9,26 @@ import java.util.Map;
  * методы для преобразования римских цифр в арабские и наоборот.
  * Также он предоставляет методы для сложения и вычитания двух
  * римских цифр.
-*/
+ */
 public class Roman {
-    private int NUMBER = 0; /**Переменная для хранения римского числа в арабской форме исчисления*/
-    private String SNUMBER = ""; /**Переменная для хранения римского числа в форме строки*/
+
+    /**Переменная типа данных Integer с названием NUMBER
+     * предназначена для хранения значения римского числа
+     * в арабском представлении для операций.
+     */
+    private int NUMBER;
+
+    /**Переменная типа данных String с названием SNUMBER
+     * предназначена для хранения значения римского числа
+     * в строке.
+     */
+    private String SNUMBER;
+
+    /**Словарь Map с типами данных внутри Character и Integer
+     * хранит ключ - значение. В данном случае ключом в этом
+     * словаре выступает символьное значение римской цифры единичной
+     * , а значением выступает целочисленное значение римской цифры
+     */
     private final Map<Character, Integer> map = new HashMap<>(); //хранение чисел (римские: обычные)
     {
         map.put('I', 1);
@@ -25,7 +39,7 @@ public class Roman {
         map.put('D', 500);
         map.put('M', 1000);
     }
-    
+
     /**
      *Метод Roman(String roman) предназначен для преобразования
      * римских цифр в арабские и наоборот. В методе используется
@@ -34,27 +48,10 @@ public class Roman {
      * В конце метода вызывается метод IntToRoman(), который преобразует арабское число в римское.
      */
     Roman(String roman){
-        String s;
-        if(roman.charAt(0) == '-'){
-            s = roman.replace("-", "");
-        }
-        else{
-            s = roman;
-        }
-       
-        for(int i = s.length() - 1, before = 0; i >= 0; i--){
-            int current = map.get(s.charAt(i)); // текущеее число
-            if(current < before){
-                this.NUMBER -= current;
-            }
-            else{
-                this.NUMBER += current;
-            }
-            before = current;
-        }
-        IntToRoman(this.NUMBER);
+        this.NUMBER = toInt(roman);
+        this.SNUMBER = roman;
     }
-    
+
     /**
      *Конструктор класса Roman принимает один аргумент типа int,
      * который представляет римскую цифру. Если аргумент меньше нуля,
@@ -62,171 +59,173 @@ public class Roman {
      * то он будет преобразован в единицу.
      */
     Roman(int roman){
-        if(roman < 0){
-            roman *= -1;
-        }
-        else if(roman == 0){
-            roman = 1;
-        }
         this.NUMBER = roman;
-        IntToRoman(this.NUMBER);
+        this.SNUMBER = toRoman(roman);
     }
 
     /**
      *Метод RomanToInt преобразует римское число в арабское.
      */
-    private void RomanToInt(String roman){
-        int number = 0; // хранение числа в конструкторе
-        int before = 0; // предыдущее число
-        for(int i = roman.length() - 1; i >= 0; i--){
-            int current = map.get(roman.charAt(i)); // текущеее число
-            if(current < before){
-                number -= current;
+    private int toInt(String roman){
+        int number = 0;
+        int before = 0;
+        roman = roman.charAt(0) == '-' ? roman.replace("-", "") : roman;
+
+        if(!roman.isEmpty()){
+            for(int i = roman.length() - 1; i >= 0; i--) {
+                int current = map.get(roman.charAt(i));
+                if (current < before) {
+                    number -= current;
+                } else {
+                    number += current;
+                }
+                before = current;
             }
-            else{
-                number += current;
-            }
-            before = current;
         }
-        this.NUMBER = number;
+        return number;
     }
-    
+
     /**
      *Метод IntToRoman преобразует арабское число в римское.
      */
-    private void IntToRoman(int NUMBER){
-        this.SNUMBER = "";
-        if(NUMBER >= 1 && NUMBER <= 10){
-            switch(NUMBER){
-                case 1 -> this.SNUMBER += "I";
-                case 2 -> this.SNUMBER += "II";
-                case 3 -> this.SNUMBER += "III";
-                case 4 -> this.SNUMBER += "IV";
-                case 5 -> this.SNUMBER += "V";
-                case 6 -> this.SNUMBER += "VI";
-                case 7 -> this.SNUMBER += "VII";
-                case 8 -> this.SNUMBER += "VIII";
-                case 9 -> this.SNUMBER += "IX";
-                case 10 -> this.SNUMBER += "X";
+    private String toRoman(int number){
+        String snumber = "";
+
+        if(number < 0) number *= -1;
+        else if(number == 0) number = 1;
+
+        if(number >= 1 && number <= 10){
+            switch(number){
+                case 1 -> snumber += "I";
+                case 2 -> snumber += "II";
+                case 3 -> snumber += "III";
+                case 4 -> snumber += "IV";
+                case 5 -> snumber += "V";
+                case 6 -> snumber += "VI";
+                case 7 -> snumber += "VII";
+                case 8 -> snumber += "VIII";
+                case 9 -> snumber += "IX";
+                case 10 -> snumber += "X";
             }
         }
-        else if(NUMBER >= 11 && NUMBER <= 99){
-            int unit = NUMBER % 10;
-            int dozens = (NUMBER / 10) % 10;
+        else if(number >= 11 && number <= 99){
+            int unit = number % 10;
+            int dozens = (number / 10) % 10;
             switch(dozens){
-                case 1 -> this.SNUMBER += "X";
-                case 2 -> this.SNUMBER += "XX";
-                case 3 -> this.SNUMBER += "XXX";
-                case 4 -> this.SNUMBER += "XL";
-                case 5 -> this.SNUMBER += "L";
-                case 6 -> this.SNUMBER += "LX";
-                case 7 -> this.SNUMBER += "LXX";
-                case 8 -> this.SNUMBER += "LXXX";
-                case 9 -> this.SNUMBER += "XC";
+                case 1 -> snumber += "X";
+                case 2 -> snumber += "XX";
+                case 3 -> snumber += "XXX";
+                case 4 -> snumber += "XL";
+                case 5 -> snumber += "L";
+                case 6 -> snumber += "LX";
+                case 7 -> snumber += "LXX";
+                case 8 -> snumber += "LXXX";
+                case 9 -> snumber += "XC";
             }
             switch(unit){
-                case 1 -> this.SNUMBER += "I";
-                case 2 -> this.SNUMBER += "II";
-                case 3 -> this.SNUMBER += "III";
-                case 4 -> this.SNUMBER += "IV";
-                case 5 -> this.SNUMBER += "V";
-                case 6 -> this.SNUMBER += "VI";
-                case 7 -> this.SNUMBER += "VII";
-                case 8 -> this.SNUMBER += "VIII";
-                case 9 -> this.SNUMBER += "IX";
+                case 1 -> snumber += "I";
+                case 2 -> snumber += "II";
+                case 3 -> snumber += "III";
+                case 4 -> snumber += "IV";
+                case 5 -> snumber += "V";
+                case 6 -> snumber += "VI";
+                case 7 -> snumber += "VII";
+                case 8 -> snumber += "VIII";
+                case 9 -> snumber += "IX";
             }
         }
-        else if(NUMBER >= 100 && NUMBER <= 999){
-            int unit = NUMBER % 10;
-            int dozens = (NUMBER / 10) % 10;
-            int hundreds = ((NUMBER / 10) / 10) % 10;
+        else if(number >= 100 && number <= 999){
+            int unit = number % 10;
+            int dozens = (number / 10) % 10;
+            int hundreds = ((number / 10) / 10) % 10;
             switch(hundreds){
-                case 1 -> this.SNUMBER += "C";
-                case 2 -> this.SNUMBER += "CC";
-                case 3 -> this.SNUMBER += "CCC";
-                case 4 -> this.SNUMBER += "CD";
-                case 5 -> this.SNUMBER += "D";
-                case 6 -> this.SNUMBER += "DC";
-                case 7 -> this.SNUMBER += "DCC";
-                case 8 -> this.SNUMBER += "DCCC";
-                case 9 -> this.SNUMBER += "CM";
+                case 1 -> snumber += "C";
+                case 2 -> snumber += "CC";
+                case 3 -> snumber += "CCC";
+                case 4 -> snumber += "CD";
+                case 5 -> snumber += "D";
+                case 6 -> snumber += "DC";
+                case 7 -> snumber += "DCC";
+                case 8 -> snumber += "DCCC";
+                case 9 -> snumber += "CM";
             }
             switch(dozens){
-                case 1 -> this.SNUMBER += "X";
-                case 2 -> this.SNUMBER += "XX";
-                case 3 -> this.SNUMBER += "XXX";
-                case 4 -> this.SNUMBER += "XL";
-                case 5 -> this.SNUMBER += "L";
-                case 6 -> this.SNUMBER += "LX";
-                case 7 -> this.SNUMBER += "LXX";
-                case 8 -> this.SNUMBER += "LXXX";
-                case 9 -> this.SNUMBER += "XC";
+                case 1 -> snumber += "X";
+                case 2 -> snumber += "XX";
+                case 3 -> snumber += "XXX";
+                case 4 -> snumber += "XL";
+                case 5 -> snumber += "L";
+                case 6 -> snumber += "LX";
+                case 7 -> snumber += "LXX";
+                case 8 -> snumber += "LXXX";
+                case 9 -> snumber += "XC";
             }
             switch(unit){
-                case 1 -> this.SNUMBER += "I";
-                case 2 -> this.SNUMBER += "II";
-                case 3 -> this.SNUMBER += "III";
-                case 4 -> this.SNUMBER += "IV";
-                case 5 -> this.SNUMBER += "V";
-                case 6 -> this.SNUMBER += "VI";
-                case 7 -> this.SNUMBER += "VII";
-                case 8 -> this.SNUMBER += "VIII";
-                case 9 -> this.SNUMBER += "IX";
+                case 1 -> snumber += "I";
+                case 2 -> snumber += "II";
+                case 3 -> snumber += "III";
+                case 4 -> snumber += "IV";
+                case 5 -> snumber += "V";
+                case 6 -> snumber += "VI";
+                case 7 -> snumber += "VII";
+                case 8 -> snumber += "VIII";
+                case 9 -> snumber += "IX";
             }
         }
-        else if(NUMBER >= 1000 && NUMBER <= 10000){
-            int unit = NUMBER % 10;
-            int dozens = (NUMBER / 10) % 10;
-            int hundreds = ((NUMBER / 10) / 10) % 10;
-            int thousands = (((NUMBER / 10) / 10) / 10) % 10;
+        else if(number >= 1000 && number <= 10000){
+            int unit = number % 10;
+            int dozens = (number / 10) % 10;
+            int hundreds = ((number / 10) / 10) % 10;
+            int thousands = (((number / 10) / 10) / 10) % 10;
             switch(thousands){
-                case 1 -> this.SNUMBER += "M";
-                case 2 -> this.SNUMBER += "MM";
-                case 3 -> this.SNUMBER += "MMM";
-                case 4 -> this.SNUMBER += "MMMM";
-                case 5 -> this.SNUMBER += "MMMMM";
-                case 6 -> this.SNUMBER += "MMMMMM";
-                case 7 -> this.SNUMBER += "MMMMMMM";
-                case 8 -> this.SNUMBER += "MMMMMMMM";
-                case 9 -> this.SNUMBER += "MMMMMMMMM";
-                case 10 -> this.SNUMBER += "MMMMMMMMMM";
+                case 1 -> snumber += "M";
+                case 2 -> snumber += "MM";
+                case 3 -> snumber += "MMM";
+                case 4 -> snumber += "MMMM";
+                case 5 -> snumber += "MMMMM";
+                case 6 -> snumber += "MMMMMM";
+                case 7 -> snumber += "MMMMMMM";
+                case 8 -> snumber += "MMMMMMMM";
+                case 9 -> snumber += "MMMMMMMMM";
+                case 10 -> snumber += "MMMMMMMMMM";
             }
             switch(hundreds){
-                case 1 -> this.SNUMBER += "C";
-                case 2 -> this.SNUMBER += "CC";
-                case 3 -> this.SNUMBER += "CCC";
-                case 4 -> this.SNUMBER += "CD";
-                case 5 -> this.SNUMBER += "D";
-                case 6 -> this.SNUMBER += "DC";
-                case 7 -> this.SNUMBER += "DCC";
-                case 8 -> this.SNUMBER += "DCCC";
-                case 9 -> this.SNUMBER += "CM";
+                case 1 -> snumber += "C";
+                case 2 -> snumber += "CC";
+                case 3 -> snumber += "CCC";
+                case 4 -> snumber += "CD";
+                case 5 -> snumber += "D";
+                case 6 -> snumber += "DC";
+                case 7 -> snumber += "DCC";
+                case 8 -> snumber += "DCCC";
+                case 9 -> snumber += "CM";
             }
             switch(dozens){
-                case 1 -> this.SNUMBER += "X";
-                case 2 -> this.SNUMBER += "XX";
-                case 3 -> this.SNUMBER += "XXX";
-                case 4 -> this.SNUMBER += "XL";
-                case 5 -> this.SNUMBER += "L";
-                case 6 -> this.SNUMBER += "LX";
-                case 7 -> this.SNUMBER += "LXX";
-                case 8 -> this.SNUMBER += "LXXX";
-                case 9 -> this.SNUMBER += "XC";
+                case 1 -> snumber += "X";
+                case 2 -> snumber += "XX";
+                case 3 -> snumber += "XXX";
+                case 4 -> snumber += "XL";
+                case 5 -> snumber += "L";
+                case 6 -> snumber += "LX";
+                case 7 -> snumber += "LXX";
+                case 8 -> snumber += "LXXX";
+                case 9 -> snumber += "XC";
             }
             switch(unit){
-                case 1 -> this.SNUMBER += "I";
-                case 2 -> this.SNUMBER += "II";
-                case 3 -> this.SNUMBER += "III";
-                case 4 -> this.SNUMBER += "IV";
-                case 5 -> this.SNUMBER += "V";
-                case 6 -> this.SNUMBER += "VI";
-                case 7 -> this.SNUMBER += "VII";
-                case 8 -> this.SNUMBER += "VIII";
-                case 9 -> this.SNUMBER += "IX";
+                case 1 -> snumber += "I";
+                case 2 -> snumber += "II";
+                case 3 -> snumber += "III";
+                case 4 -> snumber += "IV";
+                case 5 -> snumber += "V";
+                case 6 -> snumber += "VI";
+                case 7 -> snumber += "VII";
+                case 8 -> snumber += "VIII";
+                case 9 -> snumber += "IX";
             }
         }
+        return snumber;
     }
-    
+
     /**
      *Метод get возвращает строку, представляющую римское число,
      *соответствующее арабскому числу, хранящемуся в поле NUMBER.
@@ -234,7 +233,7 @@ public class Roman {
     public String get(){
         return this.SNUMBER;
     }
-    
+
     /**
      *Метод set принимает один аргумент типа String,
      *который представляет римское число.
@@ -243,9 +242,9 @@ public class Roman {
      */
     public void set(String s){
         this.SNUMBER = s;
-        RomanToInt(SNUMBER);
+        this.NUMBER = toInt(s);
     }
-    
+
     /**
      *Метод set принимает один аргумент типа int,
      *который представляет арабское число. Он устанавливает
@@ -253,8 +252,15 @@ public class Roman {
      *преобразования арабского числа в римское.
      **/
     public void set(int n){
-        IntToRoman(n);
         this.NUMBER = n;
+        this.SNUMBER = toRoman(n);
+    }
+
+    /**Метод hashCode возращает целое число, которое может быть использовано
+     *для индефикации объекта*/
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     /**
@@ -262,10 +268,8 @@ public class Roman {
      *и возвращает результат сложения двух римских цифр.
      *И присваевает это значение первому обьекту класса Roman
      **/
-    public String add(@NotNull Roman other){
-        this.NUMBER = this.NUMBER + other.NUMBER;
-        IntToRoman(this.NUMBER);
-        return this.SNUMBER;
+    public String add(Roman other){
+        return toRoman(this.NUMBER + other.NUMBER);
     }
 
     /**
@@ -273,10 +277,8 @@ public class Roman {
      *и возвращает результат вычитания двух римских цифр.
      *И присваевает это значение первому обьекту класса Roman
      **/
-    public String sub(@NotNull Roman other){
-        this.NUMBER = this.NUMBER - other.NUMBER;
-        IntToRoman(this.NUMBER);
-        return this.SNUMBER;
+    public String sub(Roman other){
+        return toRoman(this.NUMBER - other.NUMBER);
     }
 
     /**
@@ -284,20 +286,16 @@ public class Roman {
      *и возвращает результат умножения двух римских цифр.
      *И присваевает это значение первому обьекту класса Roman
      **/
-    public String mul(@NotNull Roman other){
-        this.NUMBER = this.NUMBER * other.NUMBER;
-        IntToRoman(this.NUMBER);
-        return this.SNUMBER;
+    public String mul(Roman other){
+        return toRoman(this.NUMBER * other.NUMBER);
     }
 
     /**
      *Метод div принимает один аргумент типа Roman
-     *и возвращает результат деления двух римских цифр.
+     *и возвращает результат целочисленного деления двух римских цифр.
      *И присваевает это значение первому обьекту класса Roman
      **/
-    public String div(@NotNull Roman other){
-        this.NUMBER = this.NUMBER / other.NUMBER;
-        IntToRoman(this.NUMBER);
-        return this.SNUMBER;
+    public String div(Roman other){
+        return toRoman(this.NUMBER / other.NUMBER);
     }
 }
