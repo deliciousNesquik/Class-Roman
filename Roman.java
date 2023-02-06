@@ -89,6 +89,22 @@ public class Roman {
      *Метод IntToRoman преобразует арабское число в римское.
      */
     private String toRoman(int number){
+        String[] thousands = {"", "M", "MM", "MMM", "MMMM", "MMMMM",
+                              "MMMMMM", "MMMMMMM", "MMMMMMMMM", "MMMMMMMMMM"};
+        String[] hundreds =  {"", "C", "CC", "CCC", "CD", "D",
+                              "DC", "DCC", "DCCC", "CM"};
+        String[] dozens =    {"", "X", "XX", "XXX", "XL", "L",
+                              "LX", "LXX", "LXXX", "XC"};
+        String[] units =     {"", "I", "II", "III", "IV", "V",
+                              "VI", "VII", "VIII", "IX"};
+
+        return  thousands[number / 1000] +
+                hundreds[(number % 1000) / 100] +
+                dozens[(number % 100) / 10] +
+                units[number % 10];
+    }
+
+    /**private String ARCHIVEtoRoman(int number){
         String snumber = "";
 
         if(number < 0) number *= -1;
@@ -224,7 +240,7 @@ public class Roman {
             }
         }
         return snumber;
-    }
+    }*/
 
     /**
      *Метод get возвращает строку, представляющую римское число,
