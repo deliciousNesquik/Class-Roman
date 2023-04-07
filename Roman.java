@@ -104,144 +104,6 @@ public class Roman {
                 units[number % 10];
     }
 
-    /**private String ARCHIVEtoRoman(int number){
-        String snumber = "";
-
-        if(number < 0) number *= -1;
-        else if(number == 0) number = 1;
-
-        if(number >= 1 && number <= 10){
-            switch(number){
-                case 1 -> snumber += "I";
-                case 2 -> snumber += "II";
-                case 3 -> snumber += "III";
-                case 4 -> snumber += "IV";
-                case 5 -> snumber += "V";
-                case 6 -> snumber += "VI";
-                case 7 -> snumber += "VII";
-                case 8 -> snumber += "VIII";
-                case 9 -> snumber += "IX";
-                case 10 -> snumber += "X";
-            }
-        }
-        else if(number >= 11 && number <= 99){
-            int unit = number % 10;
-            int dozens = (number / 10) % 10;
-            switch(dozens){
-                case 1 -> snumber += "X";
-                case 2 -> snumber += "XX";
-                case 3 -> snumber += "XXX";
-                case 4 -> snumber += "XL";
-                case 5 -> snumber += "L";
-                case 6 -> snumber += "LX";
-                case 7 -> snumber += "LXX";
-                case 8 -> snumber += "LXXX";
-                case 9 -> snumber += "XC";
-            }
-            switch(unit){
-                case 1 -> snumber += "I";
-                case 2 -> snumber += "II";
-                case 3 -> snumber += "III";
-                case 4 -> snumber += "IV";
-                case 5 -> snumber += "V";
-                case 6 -> snumber += "VI";
-                case 7 -> snumber += "VII";
-                case 8 -> snumber += "VIII";
-                case 9 -> snumber += "IX";
-            }
-        }
-        else if(number >= 100 && number <= 999){
-            int unit = number % 10;
-            int dozens = (number / 10) % 10;
-            int hundreds = ((number / 10) / 10) % 10;
-            switch(hundreds){
-                case 1 -> snumber += "C";
-                case 2 -> snumber += "CC";
-                case 3 -> snumber += "CCC";
-                case 4 -> snumber += "CD";
-                case 5 -> snumber += "D";
-                case 6 -> snumber += "DC";
-                case 7 -> snumber += "DCC";
-                case 8 -> snumber += "DCCC";
-                case 9 -> snumber += "CM";
-            }
-            switch(dozens){
-                case 1 -> snumber += "X";
-                case 2 -> snumber += "XX";
-                case 3 -> snumber += "XXX";
-                case 4 -> snumber += "XL";
-                case 5 -> snumber += "L";
-                case 6 -> snumber += "LX";
-                case 7 -> snumber += "LXX";
-                case 8 -> snumber += "LXXX";
-                case 9 -> snumber += "XC";
-            }
-            switch(unit){
-                case 1 -> snumber += "I";
-                case 2 -> snumber += "II";
-                case 3 -> snumber += "III";
-                case 4 -> snumber += "IV";
-                case 5 -> snumber += "V";
-                case 6 -> snumber += "VI";
-                case 7 -> snumber += "VII";
-                case 8 -> snumber += "VIII";
-                case 9 -> snumber += "IX";
-            }
-        }
-        else if(number >= 1000 && number <= 10000){
-            int unit = number % 10;
-            int dozens = (number / 10) % 10;
-            int hundreds = ((number / 10) / 10) % 10;
-            int thousands = (((number / 10) / 10) / 10) % 10;
-            switch(thousands){
-                case 1 -> snumber += "M";
-                case 2 -> snumber += "MM";
-                case 3 -> snumber += "MMM";
-                case 4 -> snumber += "MMMM";
-                case 5 -> snumber += "MMMMM";
-                case 6 -> snumber += "MMMMMM";
-                case 7 -> snumber += "MMMMMMM";
-                case 8 -> snumber += "MMMMMMMM";
-                case 9 -> snumber += "MMMMMMMMM";
-                case 10 -> snumber += "MMMMMMMMMM";
-            }
-            switch(hundreds){
-                case 1 -> snumber += "C";
-                case 2 -> snumber += "CC";
-                case 3 -> snumber += "CCC";
-                case 4 -> snumber += "CD";
-                case 5 -> snumber += "D";
-                case 6 -> snumber += "DC";
-                case 7 -> snumber += "DCC";
-                case 8 -> snumber += "DCCC";
-                case 9 -> snumber += "CM";
-            }
-            switch(dozens){
-                case 1 -> snumber += "X";
-                case 2 -> snumber += "XX";
-                case 3 -> snumber += "XXX";
-                case 4 -> snumber += "XL";
-                case 5 -> snumber += "L";
-                case 6 -> snumber += "LX";
-                case 7 -> snumber += "LXX";
-                case 8 -> snumber += "LXXX";
-                case 9 -> snumber += "XC";
-            }
-            switch(unit){
-                case 1 -> snumber += "I";
-                case 2 -> snumber += "II";
-                case 3 -> snumber += "III";
-                case 4 -> snumber += "IV";
-                case 5 -> snumber += "V";
-                case 6 -> snumber += "VI";
-                case 7 -> snumber += "VII";
-                case 8 -> snumber += "VIII";
-                case 9 -> snumber += "IX";
-            }
-        }
-        return snumber;
-    }*/
-
     /**
      *Метод get возвращает строку, представляющую римское число,
      *соответствующее арабскому числу, хранящемуся в поле NUMBER.
@@ -288,6 +150,14 @@ public class Roman {
         return toRoman(this.NUMBER + other.NUMBER);
     }
 
+    public String add(int n){
+        return toRoman(this.NUMBER + n);
+    }
+
+    public String add(String n){
+        return toRoman(this.NUMBER + toInt(n));
+    }
+
     /**
      *Метод sub принимает один аргумент типа Roman
      *и возвращает результат вычитания двух римских цифр.
@@ -295,6 +165,14 @@ public class Roman {
      **/
     public String sub(Roman other){
         return toRoman(this.NUMBER - other.NUMBER);
+    }
+
+    public String sub(int n){
+        return toRoman(this.NUMBER - n);
+    }
+
+    public String sub(String n){
+        return toRoman(this.NUMBER - toInt(n));
     }
 
     /**
@@ -306,6 +184,14 @@ public class Roman {
         return toRoman(this.NUMBER * other.NUMBER);
     }
 
+    public String mul(int n){
+        return toRoman(this.NUMBER * n);
+    }
+
+    public String mul(String n){
+        return toRoman(this.NUMBER * toInt(n));
+    }
+
     /**
      *Метод div принимает один аргумент типа Roman
      *и возвращает результат целочисленного деления двух римских цифр.
@@ -313,5 +199,13 @@ public class Roman {
      **/
     public String div(Roman other){
         return toRoman(this.NUMBER / other.NUMBER);
+    }
+
+    public String div(int n){
+        return toRoman(this.NUMBER / n);
+    }
+
+    public String div(String n){
+        return toRoman(this.NUMBER / toInt(n));
     }
 }
