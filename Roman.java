@@ -59,8 +59,17 @@ public class Roman {
      * то он будет преобразован в единицу.
      */
     Roman(int roman){
-        this.NUMBER = roman;
+        this.NUMBER = Math.abs(roman);
         this.SNUMBER = toRoman(roman);
+    }
+
+    /**
+     *Конструктор класса Roman принимает один аргумент типа Roman,
+     * который представляет римскую цифру.
+     */
+    Roman(Roman other){
+        this.NUMBER = other.NUMBER;
+        this.SNUMBER = other.SNUMBER;
     }
 
     /**
