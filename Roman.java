@@ -4,32 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Класс RomanNumeral представляет собой класс
- * для работы с римскими цифрами. Он предоставляет
- * методы для преобразования римских цифр в арабские и наоборот.
- * Также он предоставляет методы для сложения и вычитания двух
- * римских цифр.
+ * The Roman class represents a class for working with Roman numerals. It provides methods for converting Roman numerals to Arabic and vice versa.
+ * It also provides methods for adding and subtracting two Roman numerals.
  */
 public class Roman {
 
-    /**Переменная типа данных Integer с названием NUMBER
-     * предназначена для хранения значения римского числа
-     * в арабском представлении для операций.
-     */
+    /** A variable of type Integer named NUMBER is intended for storing the value of a Roman numeral in Arabic representation for operations. */
     private int NUMBER;
 
-    /**Переменная типа данных String с названием SNUMBER
-     * предназначена для хранения значения римского числа
-     * в строке.
-     */
+    /** A variable of type String named SNUMBER is intended for storing the value of a Roman numeral in a string. */
     private String SNUMBER;
 
-    /**Словарь Map с типами данных внутри Character и Integer
-     * хранит ключ - значение. В данном случае ключом в этом
-     * словаре выступает символьное значение римской цифры единичной
-     * , а значением выступает целочисленное значение римской цифры
-     */
-    private final Map<Character, Integer> map = new HashMap<>(); //хранение чисел (римские: обычные)
+    /** A dictionary Map with types inside Character and Integer stores key-value pairs. In this case, the key in this dictionary is the character value of a single Roman digit, and the value is an integer value of a Roman digit. */
+    private final Map<Character, Integer> map = new HashMap<>(); // Storing numbers (Roman: regular)
     {
         map.put('I', 1);
         map.put('V', 5);
@@ -41,11 +28,9 @@ public class Roman {
     }
 
     /**
-     *Метод Roman(String roman) предназначен для преобразования
-     * римских цифр в арабские и наоборот. В методе используется
-     * переменная map, которая содержит отображение римских цифр на арабские.
-     * Далее идет цикл, в котором происходит преобразование римских цифр в арабские.
-     * В конце метода вызывается метод IntToRoman(), который преобразует арабское число в римское.
+     * The Roman(String roman) constructor is intended for converting Roman numerals to Arabic and vice versa. In the method, the variable map, which contains the mapping of Roman digits to Arabic, is used.
+     * Then comes a loop in which the conversion of Roman digits to Arabic takes place.
+     * At the end of the method, the IntToRoman() method, which converts the Arabic number to Roman, is called.
      */
     Roman(String roman){
         this.NUMBER = toInt(roman);
@@ -53,10 +38,7 @@ public class Roman {
     }
 
     /**
-     *Конструктор класса Roman принимает один аргумент типа int,
-     * который представляет римскую цифру. Если аргумент меньше нуля,
-     * то он будет преобразован в положительное число. Если аргумент равен нулю,
-     * то он будет преобразован в единицу.
+     * The Roman class constructor accepts one argument of type int, which represents a Roman numeral. If the argument is less than zero, it will be converted to a positive number. If the argument equals zero, it will be converted to one.
      */
     Roman(int roman){
         this.NUMBER = Math.abs(roman);
@@ -64,8 +46,7 @@ public class Roman {
     }
 
     /**
-     *Конструктор класса Roman принимает один аргумент типа Roman,
-     * который представляет римскую цифру.
+     * The Roman class constructor accepts one argument of type Roman, which represents a Roman numeral.
      */
     Roman(Roman other){
         this.NUMBER = other.NUMBER;
@@ -73,7 +54,7 @@ public class Roman {
     }
 
     /**
-     *Метод RomanToInt преобразует римское число в арабское.
+     * The RomanToInt method converts a Roman numeral to an Arabic numeral.
      */
     private int toInt(String roman){
         int number = 0;
@@ -95,7 +76,7 @@ public class Roman {
     }
 
     /**
-     *Метод IntToRoman преобразует арабское число в римское.
+     * The IntToRoman method converts an Arabic numeral to a Roman numeral.
      */
     private String toRoman(int number){
         String[] thousands = {"", "M", "MM", "MMM", "MMMM", "MMMMM",
@@ -114,18 +95,15 @@ public class Roman {
     }
 
     /**
-     *Метод get возвращает строку, представляющую римское число,
-     *соответствующее арабскому числу, хранящемуся в поле NUMBER.
+     * The get method returns a string representing the Roman numeral corresponding to the Arabic number stored in the NUMBER field.
      **/
     public String get(){
         return this.SNUMBER;
     }
 
     /**
-     *Метод set принимает один аргумент типа String,
-     *который представляет римское число.
-     *Он устанавливает значение поля SNUMBER и вызывает
-     *метод RomanToInt для преобразования римского числа в арабское.
+     * The set method accepts one argument of type String, which represents a Roman numeral.
+     * It sets the value of the SNUMBER field and calls the RomanToInt method for converting the Roman numeral to Arabic.
      */
     public void set(String s){
         this.SNUMBER = s;
@@ -133,27 +111,22 @@ public class Roman {
     }
 
     /**
-     *Метод set принимает один аргумент типа int,
-     *который представляет арабское число. Он устанавливает
-     *значение поля NUMBER и вызывает метод IntToRoman для
-     *преобразования арабского числа в римское.
+     * The set method accepts one argument of type int, which represents an Arabic numeral. It sets the value of the NUMBER field and calls the IntToRoman method for converting the Arabic numeral to Roman.
      **/
     public void set(int n){
         this.NUMBER = n;
         this.SNUMBER = toRoman(n);
     }
 
-    /**Метод hashCode возращает целое число, которое может быть использовано
-     *для индефикации объекта*/
+    /** The hashCode method returns an integer that can be used for identifying the object */
     @Override
     public int hashCode() {
         return super.hashCode();
     }
 
     /**
-     *Метод add принимает один аргумент типа Roman
-     *и возвращает результат сложения двух римских цифр.
-     *И присваевает это значение первому обьекту класса Roman
+     * The add method accepts one argument of type Roman and returns the result of adding two Roman numerals.
+     * And assigns this value to the first object of the Roman class
      **/
     public String add(Roman other){
         return toRoman(this.NUMBER + other.NUMBER);
@@ -168,9 +141,8 @@ public class Roman {
     }
 
     /**
-     *Метод sub принимает один аргумент типа Roman
-     *и возвращает результат вычитания двух римских цифр.
-     *И присваевает это значение первому обьекту класса Roman
+     * The sub method accepts one argument of type Roman and returns the result of subtracting two Roman numerals.
+     * And assigns this value to the first object of the Roman class
      **/
     public String sub(Roman other){
         return toRoman(this.NUMBER - other.NUMBER);
@@ -185,9 +157,8 @@ public class Roman {
     }
 
     /**
-     *Метод mul принимает один аргумент типа Roman
-     *и возвращает результат умножения двух римских цифр.
-     *И присваевает это значение первому обьекту класса Roman
+     * The mul method accepts one argument of type Roman and returns the result of multiplying two Roman numerals.
+     * And assigns this value to the first object of the Roman class
      **/
     public String mul(Roman other){
         return toRoman(this.NUMBER * other.NUMBER);
@@ -202,9 +173,8 @@ public class Roman {
     }
 
     /**
-     *Метод div принимает один аргумент типа Roman
-     *и возвращает результат целочисленного деления двух римских цифр.
-     *И присваевает это значение первому обьекту класса Roman
+     * The div method accepts one argument of type Roman and returns the result of integer division of two Roman numerals.
+     * And assigns this value to the first object of the Roman class
      **/
     public String div(Roman other){
         return toRoman(this.NUMBER / other.NUMBER);
